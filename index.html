@@ -1,19 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <title>Mijn pagina</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iRes Embed Demo</title>
+  <style>
+    :root {
+      --bg-0: #06101d;
+      --bg-1: #0c2236;
+      --bg-2: #12324b;
+      --panel: #f8fbff;
+      --panel-soft: #e8f2ff;
+      --ink: #0f2238;
+      --muted: #4e617a;
+      --accent: #0f766e;
+      --accent-2: #06b6d4;
+      --line: #d2e4f5;
+      --code-bg: #0b1322;
+      --code-ink: #c5f4ff;
+      --shadow: 0 20px 60px rgba(5, 12, 22, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Space Grotesk", "Avenir Next", "Trebuchet MS", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, #17455f 0, transparent 32%),
+        radial-gradient(circle at 80% 20%, #14504f 0, transparent 35%),
+        linear-gradient(140deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 2rem auto 3rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero {
+      background: linear-gradient(145deg, rgba(248, 251, 255, 0.97), rgba(232, 242, 255, 0.94));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.28), transparent 70%);
+      top: -160px;
+      right: -130px;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+      letter-spacing: 0.01em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: var(--shadow);
+      animation: rise 420ms ease-out;
+    }
+
+    .card h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .span-7 {
+      grid-column: span 7;
+    }
+
+    .span-5 {
+      grid-column: span 5;
+    }
+
+    .span-12 {
+      grid-column: span 12;
+    }
+
+    .steps {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: #0b5f58;
+      background: #dff9f5;
+      border: 1px solid #9de8dd;
+      margin-bottom: 0.55rem;
+    }
+
+    pre {
+      margin: 0;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: 1px solid #1f304e;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      overflow: auto;
+      line-height: 1.45;
+      font-size: 0.82rem;
+      font-family: "JetBrains Mono", "SFMono-Regular", "Consolas", monospace;
+    }
+
+    .live-panel {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .hint {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    code {
+      padding: 0.1rem 0.35rem;
+      border-radius: 6px;
+      background: #eaf3ff;
+      color: #17365d;
+      font-family: "JetBrains Mono", "SFMono-Regular", "Consolas", monospace;
+    }
+
+    @media (max-width: 900px) {
+      .span-7,
+      .span-5 {
+        grid-column: span 12;
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hallo wereld</h1>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="pill">iRes Embed Demo</div>
+        <h1>Widget + Buttons op 1 pagina</h1>
+        <p>
+          Deze demo laat direct zien hoe je iRes correct embedt: eerst de controller bootstrap,
+          daarna je <code>&lt;ires-button&gt;</code> en optioneel <code>&lt;ires-widget&gt;</code>.
+        </p>
+      </div>
+    </section>
 
-  <div id="ires-config" ires-config="https://ireserve.ngrok.io/api/rest/embed/30120" hidden></div>
-<script type="module" src="https://ireserve.ngrok.io/javascript/embed/iResController.js"></script>
+    <section class="grid">
+      <article class="card span-5">
+        <h2>Hoe inbouwen</h2>
+        <ol class="steps">
+          <li>Plaats 1x bootstrap in je pagina: <code>ires-config</code> + script.</li>
+          <li>Plaats daarna je <code>&lt;ires-button src="..."&gt;</code> tags.</li>
+          <li>Gebruik alleen <code>&lt;ires-widget&gt;</code> als je widget-mode wil gebruiken.</li>
+        </ol>
+      </article>
 
-<ires-button src="https://ireserve.ngrok.io/api/rest/embed/30128"></ires-button>
-<ires-button src="https://ireserve.ngrok.io/api/rest/embed/30132"></ires-button>
+      <article class="card span-7">
+        <h2>Bootstrap (eenmalig op pagina)</h2>
+        <pre><code>&lt;div id="ires-config"
+     ires-config="https://default.i-reserve.net/api/rest/embed/30120"
+     hidden&gt;&lt;/div&gt;
+&lt;script type="module"
+     src="https://default.i-reserve.net/javascript/embed/iResController.js"&gt;&lt;/script&gt;</code></pre>
+      </article>
 
+      <article class="card span-12">
+        <h2>Live demo</h2>
+        <div class="live-panel">
+          <p class="hint">
+            Knoppen hieronder zijn live. `30128`/`30132` openen modal of widget afhankelijk van hun JSON type.
+          </p>
+          <div class="row">
+            <ires-button src="https://default.i-reserve.net/api/rest/embed/30128"></ires-button>
+            <ires-button src="https://default.i-reserve.net/api/rest/embed/30132"></ires-button>
+          </div>
+          <p class="hint">
+            Deze widget is optioneel. Laat hem staan als je ook <code>type: "widget"</code> knoppen gebruikt.
+          </p>
+          <ires-widget id="main-widget" src="https://default.i-reserve.net/api/rest/embed/30120"></ires-widget>
+        </div>
+      </article>
 
-<ires-widget src="https://ireserve.ngrok.io/api/rest/embed/30120"/>
+      <article class="card span-7">
+        <h2>Snippet: Alleen modal buttons</h2>
+        <pre><code>&lt;div id="ires-config"
+     ires-config="https://default.i-reserve.net/api/rest/embed/30120"
+     hidden&gt;&lt;/div&gt;
+&lt;script type="module"
+     src="https://default.i-reserve.net/javascript/embed/iResController.js"&gt;&lt;/script&gt;
+
+&lt;ires-button src="https://default.i-reserve.net/api/rest/embed/30128"&gt;&lt;/ires-button&gt;
+&lt;ires-button src="https://default.i-reserve.net/api/rest/embed/30132"&gt;&lt;/ires-button&gt;</code></pre>
+      </article>
+
+      <article class="card span-5">
+        <h2>Snippet: Modal + Widget mode</h2>
+        <pre><code>&lt;div id="ires-config"
+     ires-config="https://default.i-reserve.net/api/rest/embed/30120"
+     hidden&gt;&lt;/div&gt;
+&lt;script type="module"
+     src="https://default.i-reserve.net/javascript/embed/iResController.js"&gt;&lt;/script&gt;
+
+&lt;ires-widget id="main-widget"
+     src="https://default.i-reserve.net/api/rest/embed/30120"&gt;&lt;/ires-widget&gt;
+&lt;ires-button src="https://default.i-reserve.net/api/rest/embed/30128"&gt;&lt;/ires-button&gt;</code></pre>
+      </article>
+    </section>
+  </main>
+
+  <div id="ires-config" ires-config="https://default.i-reserve.net/api/rest/embed/30120" hidden></div>
+  <script type="module" src="https://default.i-reserve.net/javascript/embed/iResController.js"></script>
 </body>
 </html>
